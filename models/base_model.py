@@ -4,6 +4,8 @@ It has the parent class of all other classes"""
 
 import uuid
 from datetime import datetime
+from models import storage
+
 
 
 class BaseModel:
@@ -24,6 +26,8 @@ class BaseModel:
         self.created_at = datetime.now()
         self.updated_at = datetime.now()
 
+        storage.new(self)
+
     def __str__(self):
         """Returns official string representation"""
 
@@ -34,6 +38,7 @@ class BaseModel:
         """Updates the public instance attribute updated_at"""
 
         self.updated_at = datetime.now()
+        storage.save()
 
     def to_dict(self):
         """Returns a dictionary of key/value pairs of __dict__"""
