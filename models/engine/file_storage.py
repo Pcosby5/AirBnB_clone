@@ -33,7 +33,11 @@ class FileStorage:
         """Returns a dictionary of valid classes"""
         from models.base_model import BaseModel, User
 
-        classes = {"BaseModel": BaseModel, "User": User}
+        classes = {
+                "BaseModel": BaseModel,
+                "User": User,
+                "State": State
+                }
         return classes
 
     def reload(self):
