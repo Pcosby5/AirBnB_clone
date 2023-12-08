@@ -37,7 +37,8 @@ class FileStorage:
                 "BaseModel": BaseModel,
                 "User": User,
                 "State": State,
-                "City": City
+                "City": City,
+                "Amenity": Amenity
                 }
         return classes
 
