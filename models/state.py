@@ -1,10 +1,10 @@
 #!/usr/bin/python3
-"""Defines the state sub-class"""
+"""Defines the State sub-class"""
 from models.base_model import BaseModel
 
 
 class State(BaseModel):
-    """Defines sub-class inheriting from BaseModel class
+    """Defines State sub-class inheriting from BaseModel class
 
     Attributes:
     name (string): name of state

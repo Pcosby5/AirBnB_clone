@@ -4,7 +4,7 @@ from models.base_model import BaseModel
 
 
 class City(BaseModel):
-    """Defines city sub-class inheriting from BaseModel class
+    """Defines City sub-class inheriting from BaseModel class
 
     Attributes:
         state_id (string): state id
