@@ -5,7 +5,6 @@ import json
 import os
 
 
-
 class FileStorage:
 
     """private class attributes for storing and getting data"""
@@ -24,14 +23,17 @@ class FileStorage:
     def save(self):
         """serializes __objects to JSON file"""
         with open(FileStorage.__file_path, "w") as file:
-            serialized_obj = {key: obj.to_dict() for key, obj in FileStorage.__objects.items()}
+            serialized_obj = {
+                    key: obj.to_dict() for key,
+                    obj in FileStorage.__objects.items()
+                    }
             json.dump(serialized_obj, file)
 
     def classes(self):
         """Returns a dictionary of valid classes"""
         from models.base_model import BaseModel, User
 
-        classes = {"BaseModel" : BaseModel, "User": User}
+        classes = {"BaseModel": BaseModel, "User": User}
         return classes
 
     def reload(self):
@@ -44,10 +46,11 @@ class FileStorage:
         with open(FileStorage.__file_path, "r") as file:
 
             deserialized_file = json.load(file)
-            #from models.engine.file_storage import storage
-            deserialized_file = {key: self.classes()[obj["__class__"]](**obj)
-                    for key, obj in deserialized_file.items()}
-
+            # from models.engine.file_storage import storage
+            deserialized_file = {
+                    key: self.classes()[obj["__class__"]](**obj)
+                    for key, obj in deserialized_file.items()
+                    }
             FileStorage.__objects = deserialized_file
 
     def attributes(self):
@@ -61,7 +64,8 @@ class FileStorage:
                 {"email": str,
                     "password": str,
                     "first_name": str,
-                    "last_name": str}
-
+                    "last_name": str},
+                "State":
+                {"name": str},
         }
         return attributes
