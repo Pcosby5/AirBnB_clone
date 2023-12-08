@@ -5,7 +5,7 @@ It has the parent class of all other classes"""
 import uuid
 from datetime import datetime
 from models import storage
-
+import models
 
 
 class BaseModel:
