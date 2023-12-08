@@ -70,5 +70,7 @@ class FileStorage:
                 "City":
                 {"state_id": str,
                     "name": str},
+                "Amenity":
+                {"name": str},
         }
         return attributes
