@@ -9,7 +9,7 @@ class HBNBCommand(cmd.Cmd):
     Attributes:
         cprompt (str): custom command prompt
     """
-    cprompt = "(hbnb)"
+    prompt = "(hbnb)"
 
     def do_quit(self, arg):
         """Quit command to close program"""
