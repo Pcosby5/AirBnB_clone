@@ -44,7 +44,7 @@ class BaseModel:
     def to_dict(self):
         """Returns a dictionary of key/value pairs of __dict__"""
         ret_dict = self.__dict__.copy()
-        ret_dict["__class__"] = self.class__.__name__
+        ret_dict["__class__"] = type(self).__name__
         ret_dict["created_at"] = ret_dict["created_at"].isoformat()
         ret_dict["updated_at"] = ret_dict["updated_at"].isoformat()
         return ret_dict
