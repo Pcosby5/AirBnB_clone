@@ -11,6 +11,10 @@ class HBNBCommand(cmd.Cmd):
     """
     prompt = "(hbnb)"
 
+    def emptyline(self):
+        """ """
+        pass
+
     def do_quit(self, arg):
         """Quit command to close program"""
         return True
