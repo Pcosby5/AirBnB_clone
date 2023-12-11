@@ -172,7 +172,7 @@ class HBNBCommand(cmd.Cmd):
         """Fetch and count the number of instances of a class
         Usage: count <class>
         """
-        command = parse(arg)
+        command = tokenizer(arg)
         count = 0
         for obj in storage.all().values():
             if command[0] == obj.__class__.__name__:
