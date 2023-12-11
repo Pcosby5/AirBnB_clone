@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """Defines the HBNB console"""
 import cmd
-import shlex
+from shlex import split
 from models.base_model import BaseModel
 from models import storage
 
@@ -31,6 +31,9 @@ class HBNBCommand(cmd.Cmd):
         cprompt (str): custom command prompt
     """
     prompt = "(hbnb)"
+    n_classes = {
+
+            }
 
     def emptyline(self):
         """ """
