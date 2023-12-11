@@ -5,6 +5,13 @@ import re
 from shlex import split
 from models.base_model import BaseModel
 from models import storage
+from models.base_model import BaseModel
+from models.user import User
+from models.state import State
+from models.city import City
+from models.place import Place
+from models.amenity import Amenity
+from models.review import Review
 
 
 def tokenizer(arg):
@@ -64,7 +71,20 @@ class HBNBCommand(cmd.Cmd):
         elif command[0] not in HBNBCommand.n_classes:
             print("** class doesn't exist **")
         else:
-            print(eval(command[0])().id)
+            if command[0] == "User":
+                new_instance = User()
+            elif command[0] == "Place":
+                new_instance = Place()
+            elif command[0] == "State":
+                new_instance = State()
+            elif command[0] == "City":
+                new_instance = City()
+            elif command[0] == "Amenity":
+                new_instance = Amenity()
+            elif command[0] == "Review":
+                new_instance = Review()
+            else:
+                print(eval(command[0])().id)
             storage.save()
 
     def do_show(self, arg):
