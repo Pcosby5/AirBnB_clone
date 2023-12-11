@@ -40,7 +40,13 @@ class HBNBCommand(cmd.Cmd):
     """
     prompt = "(hbnb)"
     n_classes = {
-
+            "BaseModel",
+            "User",
+            "State",
+            "City",
+            "Place",
+            "Amenity"
+            "Review"
             }
 
     def emptyline(self):
