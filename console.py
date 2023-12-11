@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """Defines the HBNB console"""
 import cmd
+import re
 from shlex import split
 from models.base_model import BaseModel
 from models import storage
@@ -14,21 +15,21 @@ def tokenizer(arg):
             return [idx.strip(",") for idx in split(arg)]
         else:
             lexicon = split(arg[:bracket_tokens.span()[0]])
-            toks = [idx.strip(",") for idx in lexicon]
-            toks.append(bracket_tokens.group())
-            return toks
+            tok = [idx.strip(",") for idx in lexicon]
+            tok.append(bracket_tokens.group())
+            return tok
     else:
         lexicon = split(arg[:curl_tokens.span()[0]])
-        toks = [idx.strip(",") for idx in lexicon]
-        toks.append(curl_tokens.group())
-        return toks
+        tok = [idx.strip(",") for idx in lexicon]
+        tok.append(curl_tokens.group())
+        return tok
 
 
 class HBNBCommand(cmd.Cmd):
     """Defines the HBNB requirement interpreter
 
     Attributes:
-        cprompt (str): custom command prompt
+        prompt (str): custom command prompt
     """
     prompt = "(hbnb)"
     n_classes = {
@@ -108,7 +109,7 @@ class HBNBCommand(cmd.Cmd):
 
         Usage: all[class_name]
         """
-        command = parse(arg)
+        command = tokenizer(arg)
         if len(command) > 0 and command[0] not in HBNBCommand.n_classes:
             print("** class doesn't exist **")
         else:
@@ -125,7 +126,7 @@ class HBNBCommand(cmd.Cmd):
 
         Usage: update <class_name> <id> <attribute_name> <attribute value>
         """
-        command = parse(arg)
+        command = tokenizer(arg)
         obj_dict = storage.all()
 
         if len(command) == 0:
