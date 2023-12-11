@@ -66,6 +66,27 @@ class HBNBCommand(cmd.Cmd):
         """Quit command to exit the program"""
         print("Quit command to exit the program")
 
+    def default(self, arg):
+        """Default behavior for cmd module when input is invalid"""
+        arg_dict = {
+            "all": self.do_all,
+            "show": self.do_show,
+            "destroy": self.do_destroy,
+            "count": self.do_count,
+            "update": self.do_update
+        }
+        match = re.search(r"\.", arg)
+        if match is not None:
+            command = [arg[:match.span()[0]], arg[match.span()[1]:]]
+            match = re.search(r"\((.*?)\)", command[1])
+            if match is not None:
+                commands = [command[1][:match.span()[0]], match.group()[1:-1]]
+                if commands[0] in arg_dict.keys():
+                    call = "{} {}".format(command[0], commands[1])
+                    return arg_dict[commands[0]](call)
+        print("*** Unknown syntax: {}".format(arg))
+        return False
+
     def do_create(self, arg):
         """Creates instance of BaseModel and saves to JSON file
 
@@ -146,6 +167,17 @@ class HBNBCommand(cmd.Cmd):
                 elif len(command) == 0:
                     n_obj.append(obj.__str__())
             print(n_obj)
+
+    def do_count(self, arg):
+        """Fetch and count the number of instances of a class
+        Usage: count <class>
+        """
+        command = parse(arg)
+        count = 0
+        for obj in storage.all().values():
+            if command[0] == obj.__class__.__name__:
+                count += 1
+        print(count)
 
     def do_update(self, arg):
         """Updates instance by adding or updating attribute
