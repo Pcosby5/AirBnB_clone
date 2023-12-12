@@ -38,15 +38,15 @@ class HBNBCommand(cmd.Cmd):
     Attributes:
         prompt (str): custom command prompt
     """
-    prompt = "(hbnb)"
+    prompt = "(hbnb) "
     n_classes = {
-            "BaseModel",
-            "User",
-            "State",
-            "City",
-            "Place",
-            "Amenity"
-            "Review"
+            "BaseModel": BaseModel,
+            "User": User,
+            "State": State,
+            "City": City,
+            "Place": Place,
+            "Amenity": Amenity,
+            "Review": Review
             }
 
     def emptyline(self):
@@ -98,21 +98,9 @@ class HBNBCommand(cmd.Cmd):
         elif command[0] not in HBNBCommand.n_classes:
             print("** class doesn't exist **")
         else:
-            if command[0] == "User":
-                new_instance = User()
-            elif command[0] == "Place":
-                new_instance = Place()
-            elif command[0] == "State":
-                new_instance = State()
-            elif command[0] == "City":
-                new_instance = City()
-            elif command[0] == "Amenity":
-                new_instance = Amenity()
-            elif command[0] == "Review":
-                new_instance = Review()
-            else:
-                print(eval(command[0])().id)
+            new_instance = HBNBCommand.n_classes[command[0]]()
             storage.save()
+            print(storage.all()) #prints storage content after saving
 
     def do_show(self, arg):
         """Set outs string repr of an instance
@@ -121,6 +109,7 @@ class HBNBCommand(cmd.Cmd):
         """
         command = tokenizer(arg)
         obj_dict = storage.all()
+        print(obj_dict) # print storage content b4 searching
         if len(command) == 0:
             print("** class name missing **")
         elif command[0] not in HBNBCommand.n_classes:
