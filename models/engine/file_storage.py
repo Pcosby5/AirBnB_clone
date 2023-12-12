@@ -8,11 +8,8 @@ from models.state import State
 from models.city import City
 from models.amenity import Amenity
 from models.review import Review
-<<<<<<< Updated upstream
-from os.path import exists
 import datetime
-=======
->>>>>>> Stashed changes
+from os.path import exists
 
 
 class FileStorage:
