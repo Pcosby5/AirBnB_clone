@@ -108,18 +108,21 @@ class HBNBCommand(cmd.Cmd):
         Usage: Displays <class_name> <id>
         """
         command = tokenizer(arg)
-        obj_dict = storage.all()
-        print(obj_dict) # print storage content b4 searching
         if len(command) == 0:
             print("** class name missing **")
-        elif command[0] not in HBNBCommand.n_classes:
+            return
+        obj_dict = storage.all()
+        if command[0] not in HBNBCommand.n_classes:
             print("** class doesn't exist **")
-        elif len(command) == 1:
+            return
+        if len(command) < 2:
             print("** instance id missing **")
-        elif "{}.{}".format(command[0], command[1]) not in obj_dict:
+            return 
+        key = "{}.{}".format(command[0], command[1])
+        if key not in obj_dict:
             print("** no instance found **")
-        else:
-            print(obj_dict["{}.{}".format(command[0], command[1])])
+            return
+        print(obj_dict[key])
 
     def do_destroy(self, arg):
         """Deletes class instances based on class_name and id
