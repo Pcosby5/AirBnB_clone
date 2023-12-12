@@ -133,15 +133,23 @@ class HBNBCommand(cmd.Cmd):
         obj_dict = storage.all()
         if len(command) == 0:
             print("** class name missing **")
+            return
+        
         elif command[0] not in HBNBCommand.n_classes:
             print("** class doesn't exist **")
-        elif len(command) == 1:
+            return
+            
+        elif len(command) < 2:
             print("** instance id missing **")
-        elif "{}.{}".format(command[0], command[1]) not in obj_dict.keys():
-            print("** no instance found **")
+            
         else:
-            del obj_dict["{}.{}".format(command[0], command[1])]
-            storage.save()
+            key = "{}.{}".format(command[0], command[1])
+            if key not in obj_dict:
+                print("** no instance found **")
+                return
+            
+        del obj_dict[key]
+        storage.save()
 
     def do_all(self, arg):
         """Prints string repr of all instances or specific classes
