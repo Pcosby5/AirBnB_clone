@@ -146,22 +146,32 @@ class HBNBCommand(cmd.Cmd):
         Usage: all[class_name]
         """
         command = tokenizer(arg)
+        obj_dict = storage.all()
         if len(command) > 0 and command[0] not in HBNBCommand.n_classes:
             print("** class doesn't exist **")
         else:
-            n_obj = []
-            for obj in storage.all().values():
-                if len(command) > 0 and command[0] == obj.__class__.__name__:
-                    n_obj.append(obj.__str__())
-                elif len(command) == 0:
-                    n_obj.append(obj.__str__())
-            print(n_obj)
+            if len(command) > 0:
+                n_obj = []
+                for obj_key, obj_val in obj_dict.items():
+                    if command[0] == obj_val.__class__.__name__:
+                        n_obj.append(str(obj_val))
+                print(n_obj)
+            else:
+                for obj in storage.all().values():
+                    print(obj)
+                        
 
     def do_count(self, arg):
         """Fetch and count the number of instances of a class
         Usage: count <class>
         """
         command = tokenizer(arg)
+        if len(command) == 0:
+            print("** class name missing **")
+            return False
+        if command[0] not in HBNBCommand.n_classes:
+            print("** class doesn't exist **")
+            return False
         count = 0
         for obj in storage.all().values():
             if command[0] == obj.__class__.__name__:

@@ -22,8 +22,17 @@ class FileStorage:
     __file_path = "file.json"
     __objects = {}
 
-    def all(self):
-        return FileStorage.__objects
+    def all(self, cls=None):
+        """Returns a dict of instances based on class names"""
+        if cls is None:
+            return self.__objects
+        else:
+            obj_dict = {}
+            for key, obj in self.__objects.items():
+                class_name = key.split('.')[0]
+                if class_name == cls.__name__:
+                    obj_dict[key] = obj
+            return obj_dict
 
     def new(self, obj):
         """Set in __objects obj with key <obj_class_name>.id"""
@@ -32,8 +41,9 @@ class FileStorage:
 
     def save(self):
         """Serialize __objects to the JSON file __file_path."""
-        n_dict = FileStorage.__objects
-        obj_dict = {obj: n_dict[obj].to_dict() for obj in n_dict.keys()}
+        obj_dict = {}
+        for key, value in self.__objects.items():
+            obj_dict[key] = value.to_dict()
         with open(FileStorage.__file_path, "w") as f:
             json.dump(obj_dict, f)
 
