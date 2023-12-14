@@ -18,6 +18,7 @@ To start the command interpreter, follow these steps:
 2. Navigate to the project directory.
 3. Run the command `./airbnb_console.py` in your terminal.
 4. It will display an infinite loop which can contain various commands
+5. Use quit to exit the console
 
 ### How to Use
 
