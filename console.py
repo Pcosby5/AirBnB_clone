@@ -3,7 +3,6 @@
 import cmd
 import re
 from shlex import split
-from models.base_model import BaseModel
 from models import storage
 from models.base_model import BaseModel
 from models.user import User
@@ -40,13 +39,13 @@ class HBNBCommand(cmd.Cmd):
     """
     prompt = "(hbnb) "
     n_classes = {
-            "BaseModel": BaseModel,
-            "User": User,
-            "State": State,
-            "City": City,
-            "Place": Place,
-            "Amenity": Amenity,
-            "Review": Review
+            "BaseModel",
+            "User",
+            "State",
+            "City",
+            "Place",
+            "Amenity",
+            "Review"
             }
 
     def emptyline(self):
@@ -98,9 +97,8 @@ class HBNBCommand(cmd.Cmd):
         elif command[0] not in HBNBCommand.n_classes:
             print("** class doesn't exist **")
         else:
-            new_instance = HBNBCommand.n_classes[command[0]]()
+            print(eval(command[0])().id)
             storage.save()
-            print(storage.all()) #prints storage content after saving
 
     def do_show(self, arg):
         """Set outs string repr of an instance
@@ -108,21 +106,17 @@ class HBNBCommand(cmd.Cmd):
         Usage: Displays <class_name> <id>
         """
         command = tokenizer(arg)
+        obj_dict = storage.all()
         if len(command) == 0:
             print("** class name missing **")
-            return
-        obj_dict = storage.all()
-        if command[0] not in HBNBCommand.n_classes:
+        elif command[0] not in HBNBCommand.n_classes:
             print("** class doesn't exist **")
-            return
-        if len(command) < 2:
+        elif len(command) == 1:
             print("** instance id missing **")
-            return 
-        key = "{}.{}".format(command[0], command[1])
-        if key not in obj_dict:
+        elif "{}.{}".format(command[0], command[1]) not in obj_dict:
             print("** no instance found **")
-            return
-        print(obj_dict[key])
+        else:
+            print(obj_dict["{}.{}".format(command[0], command[1])])
 
     def do_destroy(self, arg):
         """Deletes class instances based on class_name and id
@@ -133,23 +127,15 @@ class HBNBCommand(cmd.Cmd):
         obj_dict = storage.all()
         if len(command) == 0:
             print("** class name missing **")
-            return
-        
         elif command[0] not in HBNBCommand.n_classes:
             print("** class doesn't exist **")
-            return
-            
-        elif len(command) < 2:
+        elif len(command) == 1:
             print("** instance id missing **")
-            
+        elif "{}.{}".format(command[0], command[1]) not in obj_dict.keys():
+            print("** no instance found **")
         else:
-            key = "{}.{}".format(command[0], command[1])
-            if key not in obj_dict:
-                print("** no instance found **")
-                return
-            
-        del obj_dict[key]
-        storage.save()
+            del obj_dict["{}.{}".format(command[0], command[1])]
+            storage.save()
 
     def do_all(self, arg):
         """Prints string repr of all instances or specific classes
@@ -157,32 +143,22 @@ class HBNBCommand(cmd.Cmd):
         Usage: all[class_name]
         """
         command = tokenizer(arg)
-        obj_dict = storage.all()
         if len(command) > 0 and command[0] not in HBNBCommand.n_classes:
             print("** class doesn't exist **")
         else:
-            if len(command) > 0:
-                n_obj = []
-                for obj_key, obj_val in obj_dict.items():
-                    if command[0] == obj_val.__class__.__name__:
-                        n_obj.append(str(obj_val))
-                print(n_obj)
-            else:
-                for obj in storage.all().values():
-                    print(obj)
-                        
+            new_obj = []
+            for obj in storage.all().values():
+                if len(command) > 0 and command[0] == obj.__class__.__name__:
+                    new_obj.append(obj.__str__())
+                elif len(command) == 0:
+                    new_obj.append(obj.__str__())
+            print(new_obj)
 
     def do_count(self, arg):
         """Fetch and count the number of instances of a class
         Usage: count <class>
         """
         command = tokenizer(arg)
-        if len(command) == 0:
-            print("** class name missing **")
-            return False
-        if command[0] not in HBNBCommand.n_classes:
-            print("** class doesn't exist **")
-            return False
         count = 0
         for obj in storage.all().values():
             if command[0] == obj.__class__.__name__:
